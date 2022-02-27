@@ -1,0 +1,19 @@
+.transparent-btn {
+  background-color: #fff !important;
+  border-radius: 0em !important;
+  /* // color must be black for background to completely show through, also works as fallback text color for IE and older browsers */
+  color: #000;
+  font-family: inherit;
+  /* // make text look transparent so container background shows through: */
+  mix-blend-mode: screen;
+  display: block;
+  
+  font-size: 1.5vw;
+
+}
+
+.transparent-btn:hover {
+    background-color: transparent;
+    color: #000;
+    mix-blend-mode: color-burn;
+}
