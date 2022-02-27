@@ -10,8 +10,8 @@ import '../../App.css'
 function Navbar() {
     console.log("Link: ", env.REACT_APP_WEATHER_LINK)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const [weatherData, setWeatherData] = useState({})
-    const [weatherIconLink, setWeatherIconLink] = useState('')
+    const [weatherData, setWeatherData] = useState(null)
+    const [weatherIconData, setWeatherIconData] = useState('')
     useEffect(() => {
         axios({
             method: 'GET',
@@ -20,7 +20,10 @@ function Navbar() {
         .then((res) => {
             console.log(res.data)
             setWeatherData(res.data)
-            setWeatherIconLink(`http://openweathermap.org/img/wn/${res.data.weather[0].icon}@2x.png`)
+            setWeatherIconData({
+                iconLink: `http://openweathermap.org/img/wn/${res.data.weather[0].icon}@2x.png`,
+                description: res.data.weather[0].description
+            })
         })
         .catch(err => console.error(err))
     }, [])
@@ -28,7 +31,7 @@ function Navbar() {
         return Math.floor(temp - 273.15);
     }
     console.log("Weather: ", weatherData)
-    console.log("weatherIconLink: ", weatherIconLink)
+    console.log("weatherIconLink: ", weatherIconData)
     return (
         <HStack spacing={5} justifyContent="flex-end" p={10} height="15vh">
             <Center  marginRight="auto" boxSize="9vw" backgroundColor="white">
@@ -40,13 +43,13 @@ function Navbar() {
                 />
             </Center>
             {
-                weatherData
+                null === weatherData
                 ? null
                 :
                 <>
                     <Image 
-                        src={weatherIconLink} 
-                        alt={weatherData.weather[0].description}
+                        src={weatherIconData.iconLink} 
+                        alt={weatherIconData.description}
                         boxSize='50px'
                         objectFit='cover' 
                     />
